@@ -1,5 +1,5 @@
 import { Text, View , StyleSheet ,TouchableOpacity} from "react-native";
-
+import styles from './style';
 
 
 export default function Head(){
@@ -13,19 +13,5 @@ export default function Head(){
 }
 
 
-const styles = StyleSheet.create({
-    container: {
-     backgroundColor:"#4169E1",
-     height:150,
-     width:"100%", 
-    },
-    txt:{
-      color:"white",
-      fontSize:35,
-      textAlign:"center",
-      fontWeight:"bold",
-      marginTop:55,
-    }
-  });
-  
+
 
