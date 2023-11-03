@@ -9,6 +9,7 @@ export default function User(){
     <View style={styles.container}>
         <TouchableOpacity>
         <Text> Bom dia</Text>
+        <Text>so pra subir</Text>
         </TouchableOpacity>
     </View>
 
