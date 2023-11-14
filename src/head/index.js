@@ -8,8 +8,8 @@ export default function Head() {
   return (
     <View style={styles.container}>
       <Image style={styles.logo} source={require('../images/logo.png')} />
-      <TouchableOpacity>
-        <FontAwesome name="bars" size={24} color="red" />
+      <TouchableOpacity style={styles.bars}>
+        <FontAwesome name="bars" size={27} color="white" />
       </TouchableOpacity>
     </View>
   );

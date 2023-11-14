@@ -3,22 +3,22 @@ import { StyleSheet } from 'react-native'
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#4169E1',
-    height: '15%',
+    height: '20%',
     width: '100%',
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center'
-  },
-  txt: {
-    color: 'white',
-    fontSize: 35,
-    textAlign: 'center',
-    fontWeight: 'bold',
-    marginTop: 55
-  },
+    justifyContent: 'center',
+padding:30,  },
+
   logo: {
     height: '100%',
-    width: '80%'
-  }
+    width: '80%',
+    marginTop:45,
+  },
+  bars:{
+    position:"absolute",
+    left:20,
+    top:50,
+  },
 })
 export default styles
