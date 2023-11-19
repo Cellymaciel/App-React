@@ -2,9 +2,21 @@ import { StyleSheet } from 'react-native'
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 35,
-    marginEnd: 5
+    width: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignContent: 'center'
   },
+  containerMain: {
+    width: '100%',
+    display: 'flex',
+    alignContent: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 10
+  },
+
   searchBox: {
     flexDirection: 'row',
     alignItems: 'center'
@@ -34,11 +46,27 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 10,
     borderTopRightRadius: 10
   },
+
+  climaBoxMain: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '90%'
+  },
+
+  boxClimaMain: {
+    width: '100%'
+  },
+
+  climaBoxSecondary: {
+    display: ''
+  },
+
   primary: {
     padding: 5,
     backgroundColor: '#4682B4',
     alignItems: 'center',
-    width: 310,
+    width: '100%',
     height: 120,
     borderRadius: 10,
     marginTop: 10

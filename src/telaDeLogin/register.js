@@ -11,8 +11,15 @@ import {
 import { FontAwesome } from '@expo/vector-icons'
 import styles from './registerStyle'
 import { Ionicons } from '@expo/vector-icons'
+import { useNavigation } from '@react-navigation/native'
 
 export default function Register() {
+  const navigation = useNavigation()
+
+  const handleLoginClick = () => {
+    navigation.navigate('Login')
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.background}>
@@ -57,12 +64,10 @@ export default function Register() {
               <Text style={styles.textBtn}>Registrar-se</Text>
             </Pressable>
             <View style={styles.linkBox}>
-              <Text style={styles.registerMessage}>Já possui conta?</Text>
-              <TouchableOpacity>
-                <View>
-                  <Text>Faça Login</Text>
-                </View>
-              </TouchableOpacity>
+              <Text style={styles.registerMessage}>Já possui conta? </Text>
+              <Pressable onPress={handleLoginClick}>
+                <Text>Faça Logint</Text>
+              </Pressable>
             </View>
           </View>
         </View>

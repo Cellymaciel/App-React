@@ -1,14 +1,15 @@
-import {
-  Text,
-  View,
-  TextInput,
-  Image,
-  Pressable
-} from 'react-native'
+import { Text, View, TextInput, Image, Pressable, Button } from 'react-native'
 import { FontAwesome } from '@expo/vector-icons'
 import styles from './loginStyle'
+import { useNavigation } from '@react-navigation/native'
 
-export default function Login() {
+export default function Login(props) {
+  const navigation = useNavigation()
+
+  const handleRegisterClick = () => {
+    navigation.navigate('Register')
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.background}>
@@ -49,9 +50,12 @@ export default function Login() {
             <Pressable style={styles.button}>
               <Text style={styles.textBtn}>Entrar</Text>
             </Pressable>
-            <Text style={styles.registerMessage}>
-              Não possui conta? Registre-se
-            </Text>
+            <View>
+              <Text style={styles.registerMessage}>Não possui conta? </Text>
+              <Pressable onPress={handleRegisterClick}>
+                <Text>Registre-se</Text>
+              </Pressable>
+            </View>
           </View>
         </View>
       </View>
