@@ -5,6 +5,7 @@ import {
   TextInput,
   TouchableOpacity
 } from 'react-native'
+import React, { useState } from 'react'
 import { FontAwesome } from '@expo/vector-icons'
 import styles from './homeStyle'
 
@@ -12,6 +13,32 @@ import Head from '../head/header'
 import Footer from '../footer/footer'
 
 export default function Body() {
+  const apiUrl =
+    'https://api.hgbrasil.com/weather?format=json-cors&key=af2a2efb&city_name='
+  const locationApiUrl =
+    'https://api.hgbrasil.com/geoip?format=json-cors&key=af2a2efb&address=remote&precision=false'
+
+  let cityInitial = ''
+
+  const [city, setCity] = useState('')
+
+  const handleSearchClick = () => {
+    getTodayInfos(city)
+  }
+  const getTodayInfos = cityName => {
+    fetch(apiUrl + cityName)
+      .then(response => response.json())
+      .then(data => {
+        const results = data.results
+        // setWeatherData(results)
+        // changePrincipalInfos(results)
+        // changeImg(Number(results.condition_code))
+        console.log(JSON.stringify(results, null, 2))
+      })
+      .catch(error => console.error(error))
+  }
+
+  1
   return (
     <SafeAreaView style={styles.container}>
       <Head></Head>
@@ -21,8 +48,10 @@ export default function Body() {
           <TextInput
             style={styles.input}
             placeholder="Digite o nome da cidade"
+            value={city}
+            onChangeText={text => setCity(text)}
           />
-          <TouchableOpacity style={styles.btn}>
+          <TouchableOpacity style={styles.btn} onPress={handleSearchClick}>
             <FontAwesome name="search" size={20} color={'white'} />
           </TouchableOpacity>
         </View>
