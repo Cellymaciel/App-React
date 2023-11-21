@@ -8,7 +8,7 @@ import {
   Pressable,
   TouchableOpacity
 } from 'react-native'
-import { FontAwesome } from '@expo/vector-icons'
+import { FontAwesome, Entypo } from '@expo/vector-icons'
 import styles from './registerStyle'
 import { Ionicons } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'

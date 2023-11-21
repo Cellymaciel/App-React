@@ -6,7 +6,8 @@ const styles = StyleSheet.create({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    alignContent: 'center'
+    alignContent: 'center',
+    backgroundColor: '#33415c'
   },
   containerMain: {
     width: '100%',
@@ -35,7 +36,8 @@ const styles = StyleSheet.create({
     width: 188,
     margin: 0,
     borderWidth: 1,
-    borderColor: '#33415c',
+    backgroundColor: '#FFFF',
+    borderColor: '#ffff',
     padding: 8,
     opacity: 0.6
   },
