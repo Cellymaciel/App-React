@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
   txt: {
     fontWeight: 'bold',
     fontSize: 18,
-    backgroundColor: '#33415c',
+    backgroundColor: '#0466c8',
     color: 'white',
     padding: 8,
     borderTopLeftRadius: 10,
@@ -36,10 +36,10 @@ const styles = StyleSheet.create({
     width: 188,
     margin: 0,
     borderWidth: 1,
-    backgroundColor: '#FFFF',
+    backgroundColor: 'white',
     borderColor: '#ffff',
-    padding: 8,
-    opacity: 0.6
+    padding: 8
+    // opacity: 0.6
   },
 
   btn: {

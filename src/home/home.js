@@ -95,7 +95,7 @@ export default function Body() {
                   <Text style={stylesClima.boxTopMessage}>TEMPO AGORA EM</Text>
                   <Text style={stylesClima.boxTopCityName}>
                     {' '}
-                    <Entypo name="location-pin" size={25} color="#0466C8" />
+                    <Entypo name="location-pin" size={28} color="#0466C8" />
                     Curitiba
                   </Text>
                 </View>
@@ -103,34 +103,34 @@ export default function Body() {
                 <View style={stylesClima.boxInsideMain}>
                   <Image
                     style={stylesClima.boxMainImage}
-                    source={require('../images/logo.png')}
+                    source={require('../../assets/images/ar-quente.svg')}
                   />
                   <View style={stylesClima.boxMainInfos}>
-                    <Text style={stylesClima.boxMainTemp}>10</Text>
+                    <Text style={stylesClima.boxMainTemp}>10º</Text>
                     <Text style={stylesClima.boxMainDesc}>Nublado</Text>
                   </View>
                 </View>
 
                 <View style={stylesClima.boxInsideBottom}>
-                  <View style={stylesClima.boxBottomOne}>
+                  <View style={stylesClima.boxBottomInfo}>
                     <View style={stylesClima.boxInfo}>
-                      <Text style={stylesClima.boxOneText}>Umidade</Text>
-                      <Text style={stylesClima.boxOneText}>60%</Text>
+                      <Text style={stylesClima.boxSmall}>Umidade</Text>
+                      <Text style={stylesClima.boxSmall}>60%</Text>
                     </View>
                     <View style={stylesClima.boxInfo}>
-                      <Text style={stylesClima.boxOneText}>Vento</Text>
-                      <Text style={stylesClima.boxOneText}>3.09km/h</Text>
+                      <Text style={stylesClima.boxSmall}>Vento</Text>
+                      <Text style={stylesClima.boxSmall}>3.09km/h</Text>
                     </View>
                   </View>
 
-                  <View style={stylesClima.boxBottomTwo}>
+                  <View style={stylesClima.boxBottomInfo}>
                     <View style={stylesClima.boxInfo}>
-                      <Text style={stylesClima.boxTwoText}>Nascer do Sol</Text>
-                      <Text style={stylesClima.boxTwoText}>05:19 am</Text>
+                      <Text style={stylesClima.boxSmall}>Nascer do Sol</Text>
+                      <Text style={stylesClima.boxSmall}>05:19 am</Text>
                     </View>
                     <View style={stylesClima.boxInfo}>
-                      <Text style={stylesClima.boxTwoText}>Pôr do Sol</Text>
-                      <Text style={stylesClima.boxTwoText}>06:46 pm</Text>
+                      <Text style={stylesClima.boxSmall}>Pôr do Sol</Text>
+                      <Text style={stylesClima.boxSmall}>06:46 pm</Text>
                     </View>
                   </View>
                 </View>
@@ -138,34 +138,52 @@ export default function Body() {
             </TouchableOpacity>
           </View>
 
-          <SafeAreaView style={styles.climaBoxSecondary}>
-            <View style={styles.cont2}>
-              <TouchableOpacity>
-                <View style={styles.second}>
-                  <Text style={styles.txt2}>Secundario</Text>
+          <SafeAreaView style={stylesClima.climaBoxSecondary}>
+            <View style={stylesClima.boxesClimaSecondary}>
+              <View style={stylesClima.boxSecondaryLeft}>
+                <View style={stylesClima.boxLeftImg}>
+                  <Image
+                    style={stylesClima.boxMainImage}
+                    source={require('../../assets/images/ar-quente.svg')}
+                  />
                 </View>
-              </TouchableOpacity>
+                <View style={stylesClima.boxLeftTxt}>
+                  <Text style={stylesClima.titleBoxSecondary}>
+                    Hoje - 21/11
+                  </Text>
+                  <Text style={stylesClima.climaBoxSecondary}>
+                    Máxima 30º - Mínima 15º
+                  </Text>
+                  <Text style={stylesClima.descriptionBoxSecondary}>
+                    Parcialmente nublado
+                  </Text>
+                </View>
+              </View>
 
-              <TouchableOpacity>
-                <View style={styles.third}>
-                  <Text style={styles.txt3}>Terceiro</Text>
+              <View style={stylesClima.boxSecondaryRight}>
+                <View style={stylesClima.boxRightImg}>
+                  <Image
+                    style={stylesClima.boxMainImage}
+                    source={require('../../assets/images/ar-quente.svg')}
+                  />
                 </View>
-              </TouchableOpacity>
+                <View style={stylesClima.boxRightTxt}>
+                  <Text style={stylesClima.titleBoxSecondary}>
+                    Hoje - 21/11
+                  </Text>
+                  <Text style={stylesClima.climaBoxSecondary}>
+                    Máxima 30º - Mínima 15º
+                  </Text>
+                  <Text style={stylesClima.descriptionBoxSecondary}>
+                    Parcialmente nublado
+                  </Text>
+                </View>
+              </View>
             </View>
 
-            <View style={styles.cont3}>
-              <TouchableOpacity>
-                <View style={styles.for}>
-                  <Text style={styles.txt4}>Quarto</Text>
-                </View>
-              </TouchableOpacity>
+            <View style={stylesClima.boxesClimaSecondary}></View>
 
-              <TouchableOpacity>
-                <View style={styles.five}>
-                  <Text style={styles.txt5}>Quinto</Text>
-                </View>
-              </TouchableOpacity>
-            </View>
+            <TouchableOpacity></TouchableOpacity>
           </SafeAreaView>
         </SafeAreaView>
       </SafeAreaView>
