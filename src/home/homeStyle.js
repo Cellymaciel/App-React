@@ -3,6 +3,7 @@ import { StyleSheet } from 'react-native'
 const styles = StyleSheet.create({
   container: {
     width: '100%',
+    height: 'auto',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -11,6 +12,7 @@ const styles = StyleSheet.create({
   },
   containerMain: {
     width: '100%',
+    height: 'auto%',
     display: 'flex',
     alignContent: 'center',
     alignItems: 'center',

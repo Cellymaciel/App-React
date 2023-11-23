@@ -4,15 +4,17 @@ import {
   SafeAreaView,
   TextInput,
   TouchableOpacity,
-  Image
+  Image,
+  ActivityIndicator
 } from 'react-native'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { FontAwesome, Entypo } from '@expo/vector-icons'
 import styles from './homeStyle'
 import stylesClima from './boxesClimasStyle'
 
 import Head from '../head/header'
 import Footer from '../footer/footer'
+import { Touchable } from 'react-native'
 
 export default function Body() {
   const apiUrl =
@@ -24,16 +26,22 @@ export default function Body() {
 
   const [city, setCity] = useState('')
   const [weatherData, setWeatherData] = useState(null)
+  const [nextDaysWeather, setNextDaysWeather] = useState(null)
+  const [loading, setLoading] = useState(false)
 
   const handleSearchClick = () => {
     getTodayInfos(city)
   }
   const getTodayInfos = cityName => {
+    setLoading(true)
     fetch(apiUrl + cityName)
       .then(response => response.json())
       .then(data => {
         const results = data.results
+        const nextDaysResults = data.results.forecast
         setWeatherData(results)
+        setNextDaysWeather(nextDaysResults)
+        setLoading(false)
         // changePrincipalInfos(results)
         // changeImg(Number(results.condition_code))
         console.log(JSON.stringify(results, null, 2))
@@ -41,152 +49,230 @@ export default function Body() {
       .catch(error => console.error(error))
   }
 
-  function changePricipalInfos(results) {
-    city_result.textContent = results.city
-    description.textContent = results.description
-    temperature.textContent = results.temp + 'º'
-    humidity.textContent = results.humidity + '%'
-    windSpeedy.textContent = results.wind_speedy
-    sunrise.textContent = results.sunrise
-    sunset.textContent = results.sunset
+  function getUserLocation() {
+    fetch(locationApiUrl).then(response =>
+      response
+        .json()
+        .then(data => {
+          const cityInitial = data.results.city
+          getTodayInfos(cityInitial)
+        })
+        .catch(error => console.error(error))
+    )
   }
 
-  1
+  //para executar a api de location qnd a
+  useEffect(() => {
+    getUserLocation()
+  }, [])
+
   return (
     <SafeAreaView style={styles.container}>
-      <Head></Head>
-      <SafeAreaView style={styles.containerMain}>
-        <View style={styles.searchBox}>
-          <Text style={styles.txt}> Cidade :</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Digite o nome da cidade"
-            value={city}
-            onChangeText={text => setCity(text)}
-          />
-          <TouchableOpacity style={styles.btn} onPress={handleSearchClick}>
-            <FontAwesome name="search" size={20} color={'white'} />
-          </TouchableOpacity>
+      {loading && (
+        <View style={styles.loadingArea}>
+          <ActivityIndicator size="large" color="#230C76" />
+          <Text style={styles.loadingText}>Carregando...</Text>
         </View>
-
-        <SafeAreaView style={styles.climaBoxMain}>
-          <View style={styles.boxClimaMain}>
-            {/* <TouchableOpacity>
-              <View style={styles.primary}>
-                <Text style={styles.txt1}> Clima Principal</Text>
-                {weatherData && (
-                  <>
-                    <Text>{weatherData.city}</Text>
-                    <Text>{weatherData.description}</Text>
-                    <Text>{weatherData.description}</Text>
-                    <Text>{weatherData.temp}</Text>
-                    <Text>{weatherData.wind_speedy}</Text>
-                    <Text>{weatherData.sunrise}</Text>
-                    <Text>{weatherData.sunset}</Text>
-                    {/* Add more elements to display other weather information */}
-            {/* </>
-                )} */}
-            {/* </View> */}
-            {/* </TouchableOpacity> */}
-
-            <TouchableOpacity>
-              <View style={stylesClima.boxClimaPrincipal}>
-                <View style={stylesClima.boxInsideTop}>
-                  <Text style={stylesClima.boxTopMessage}>TEMPO AGORA EM</Text>
-                  <Text style={stylesClima.boxTopCityName}>
-                    {' '}
-                    <Entypo name="location-pin" size={28} color="#0466C8" />
-                    Curitiba
-                  </Text>
-                </View>
-
-                <View style={stylesClima.boxInsideMain}>
-                  <Image
-                    style={stylesClima.boxMainImage}
-                    source={require('../../assets/images/ar-quente.svg')}
-                  />
-                  <View style={stylesClima.boxMainInfos}>
-                    <Text style={stylesClima.boxMainTemp}>10º</Text>
-                    <Text style={stylesClima.boxMainDesc}>Nublado</Text>
-                  </View>
-                </View>
-
-                <View style={stylesClima.boxInsideBottom}>
-                  <View style={stylesClima.boxBottomInfo}>
-                    <View style={stylesClima.boxInfo}>
-                      <Text style={stylesClima.boxSmall}>Umidade</Text>
-                      <Text style={stylesClima.boxSmall}>60%</Text>
-                    </View>
-                    <View style={stylesClima.boxInfo}>
-                      <Text style={stylesClima.boxSmall}>Vento</Text>
-                      <Text style={stylesClima.boxSmall}>3.09km/h</Text>
-                    </View>
-                  </View>
-
-                  <View style={stylesClima.boxBottomInfo}>
-                    <View style={stylesClima.boxInfo}>
-                      <Text style={stylesClima.boxSmall}>Nascer do Sol</Text>
-                      <Text style={stylesClima.boxSmall}>05:19 am</Text>
-                    </View>
-                    <View style={stylesClima.boxInfo}>
-                      <Text style={stylesClima.boxSmall}>Pôr do Sol</Text>
-                      <Text style={stylesClima.boxSmall}>06:46 pm</Text>
-                    </View>
-                  </View>
-                </View>
-              </View>
+      )}
+      {!loading && (
+        <SafeAreaView style={styles.containerMain}>
+          <Head></Head>
+          <View style={styles.searchBox}>
+            <Text style={styles.txt}> Cidade :</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Digite o nome da cidade"
+              value={city}
+              onChangeText={text => setCity(text)}
+            />
+            <TouchableOpacity style={styles.btn} onPress={handleSearchClick}>
+              <FontAwesome name="search" size={20} color={'white'} />
             </TouchableOpacity>
           </View>
 
-          <SafeAreaView style={stylesClima.climaBoxSecondary}>
-            <View style={stylesClima.boxesClimaSecondary}>
-              <View style={stylesClima.boxSecondaryLeft}>
-                <View style={stylesClima.boxLeftImg}>
-                  <Image
-                    style={stylesClima.boxMainImage}
-                    source={require('../../assets/images/ar-quente.svg')}
-                  />
-                </View>
-                <View style={stylesClima.boxLeftTxt}>
-                  <Text style={stylesClima.titleBoxSecondary}>
-                    Hoje - 21/11
-                  </Text>
-                  <Text style={stylesClima.climaBoxSecondary}>
-                    Máxima 30º - Mínima 15º
-                  </Text>
-                  <Text style={stylesClima.descriptionBoxSecondary}>
-                    Parcialmente nublado
-                  </Text>
-                </View>
-              </View>
+          <SafeAreaView style={styles.climaBoxMain}>
+            <View style={styles.boxClimaMain}>
+              {weatherData && (
+                <>
+                  <TouchableOpacity>
+                    <View style={stylesClima.boxClimaPrincipal}>
+                      <View style={stylesClima.boxInsideTop}>
+                        <Text style={stylesClima.boxTopMessage}>
+                          TEMPO AGORA EM
+                        </Text>
+                        <Text style={stylesClima.boxTopCityName}>
+                          {' '}
+                          <Entypo
+                            name="location-pin"
+                            size={28}
+                            color="#0466C8"
+                          />
+                          {weatherData.city}
+                        </Text>
+                      </View>
 
-              <View style={stylesClima.boxSecondaryRight}>
-                <View style={stylesClima.boxRightImg}>
-                  <Image
-                    style={stylesClima.boxMainImage}
-                    source={require('../../assets/images/ar-quente.svg')}
-                  />
-                </View>
-                <View style={stylesClima.boxRightTxt}>
-                  <Text style={stylesClima.titleBoxSecondary}>
-                    Hoje - 21/11
-                  </Text>
-                  <Text style={stylesClima.climaBoxSecondary}>
-                    Máxima 30º - Mínima 15º
-                  </Text>
-                  <Text style={stylesClima.descriptionBoxSecondary}>
-                    Parcialmente nublado
-                  </Text>
-                </View>
-              </View>
+                      <View style={stylesClima.boxInsideMain}>
+                        <Image
+                          style={stylesClima.boxMainImage}
+                          source={require('../../assets/images/ar-quente.svg')}
+                        />
+                        <View style={stylesClima.boxMainInfos}>
+                          <Text style={stylesClima.boxMainTemp}>
+                            {weatherData.temp}º
+                          </Text>
+                          <Text style={stylesClima.boxMainDesc}>
+                            {weatherData.description}
+                          </Text>
+                        </View>
+                      </View>
+
+                      <View style={stylesClima.boxInsideBottom}>
+                        <View style={stylesClima.boxBottomInfo}>
+                          <View style={stylesClima.boxInfo}>
+                            <Text style={stylesClima.boxSmall}>Umidade</Text>
+                            <Text style={stylesClima.boxSmall}>
+                              {weatherData.humidity}%
+                            </Text>
+                          </View>
+                          <View style={stylesClima.boxInfo}>
+                            <Text style={stylesClima.boxSmall}>Vento</Text>
+                            <Text style={stylesClima.boxSmall}>
+                              {weatherData.wind_speedy}km/h
+                            </Text>
+                          </View>
+                        </View>
+
+                        <View style={stylesClima.boxBottomInfo}>
+                          <View style={stylesClima.boxInfo}>
+                            <Text style={stylesClima.boxSmall}>
+                              Nascer do Sol
+                            </Text>
+                            <Text style={stylesClima.boxSmall}>
+                              {weatherData.sunrise}
+                            </Text>
+                          </View>
+                          <View style={stylesClima.boxInfo}>
+                            <Text style={stylesClima.boxSmall}>Pôr do Sol</Text>
+                            <Text style={stylesClima.boxSmall}>
+                              {weatherData.sunset}
+                            </Text>
+                          </View>
+                        </View>
+                      </View>
+                    </View>
+                  </TouchableOpacity>
+                </>
+              )}
+
+              {nextDaysWeather && (
+                <>
+                  <SafeAreaView style={stylesClima.climaBoxSecondary}>
+                    {/* SEGUNDO DIA */}
+                    <TouchableOpacity>
+                      <View style={stylesClima.boxeClimaSecondary}>
+                        <View style={stylesClima.boxSecImg}>
+                          <Image
+                            style={stylesClima.boxSecondaryImage}
+                            source={require('../../assets/images/ar-quente.svg')}
+                          />
+                        </View>
+                        <View style={stylesClima.boxSecTxt}>
+                          <Text style={stylesClima.titleBoxSecondary}>
+                            Amanhã - {nextDaysWeather[1].date}
+                          </Text>
+                          <Text style={stylesClima.tempSecTxt}>
+                            Mínima {nextDaysWeather[1].min}º - Máxima {''}
+                            {nextDaysWeather[1].max}º
+                          </Text>
+                          <Text style={stylesClima.descriptionBoxSecondary}>
+                            {nextDaysWeather[1].description}
+                          </Text>
+                        </View>
+                      </View>
+                    </TouchableOpacity>
+
+                    {/* TERCEIRO DIA */}
+                    <TouchableOpacity>
+                      <View style={stylesClima.boxeClimaSecondary}>
+                        <View style={stylesClima.boxSecImg}>
+                          <Image
+                            style={stylesClima.boxSecondaryImage}
+                            source={require('../../assets/images/ar-quente.svg')}
+                          />
+                        </View>
+                        <View style={stylesClima.boxSecTxt}>
+                          <Text style={stylesClima.titleBoxSecondary}>
+                            {nextDaysWeather[2].weekday} -{' '}
+                            {nextDaysWeather[2].date}
+                          </Text>
+                          <Text style={stylesClima.tempSecTxt}>
+                            Mínima {nextDaysWeather[2].min}º - Máxima {''}
+                            {nextDaysWeather[2].max}º
+                          </Text>
+                          <Text style={stylesClima.descriptionBoxSecondary}>
+                            {nextDaysWeather[2].description}
+                          </Text>
+                        </View>
+                      </View>
+                    </TouchableOpacity>
+
+                    {/* QUARTO DIA */}
+                    <TouchableOpacity>
+                      <View style={stylesClima.boxeClimaSecondary}>
+                        <View style={stylesClima.boxSecImg}>
+                          <Image
+                            style={stylesClima.boxSecondaryImage}
+                            source={require('../../assets/images/ar-quente.svg')}
+                          />
+                        </View>
+                        <View style={stylesClima.boxSecTxt}>
+                          <Text style={stylesClima.titleBoxSecondary}>
+                            {nextDaysWeather[3].weekday} -{' '}
+                            {nextDaysWeather[3].date}
+                          </Text>
+                          <Text style={stylesClima.tempSecTxt}>
+                            Mínima {nextDaysWeather[3].min}º - Máxima {''}
+                            {nextDaysWeather[3].max}º
+                          </Text>
+                          <Text style={stylesClima.descriptionBoxSecondary}>
+                            {nextDaysWeather[3].description}
+                          </Text>
+                        </View>
+                      </View>
+                    </TouchableOpacity>
+
+                    {/* QUINTO DIA */}
+                    <TouchableOpacity>
+                      <View style={stylesClima.boxeClimaSecondary}>
+                        <View style={stylesClima.boxSecImg}>
+                          <Image
+                            style={stylesClima.boxSecondaryImage}
+                            source={require('../../assets/images/ar-quente.svg')}
+                          />
+                        </View>
+                        <View style={stylesClima.boxSecTxt}>
+                          <Text style={stylesClima.titleBoxSecondary}>
+                            {nextDaysWeather[4].weekday} -{' '}
+                            {nextDaysWeather[4].date}
+                          </Text>
+                          <Text style={stylesClima.tempSecTxt}>
+                            Mínima {nextDaysWeather[4].min}º - Máxima {''}
+                            {nextDaysWeather[4].max}º
+                          </Text>
+                          <Text style={stylesClima.descriptionBoxSecondary}>
+                            {nextDaysWeather[4].description}
+                          </Text>
+                        </View>
+                      </View>
+                    </TouchableOpacity>
+                  </SafeAreaView>
+                </>
+              )}
             </View>
-
-            <View style={stylesClima.boxesClimaSecondary}></View>
-
-            <TouchableOpacity></TouchableOpacity>
           </SafeAreaView>
         </SafeAreaView>
-      </SafeAreaView>
+      )}
+
       <Footer></Footer>
     </SafeAreaView>
   )

@@ -2,10 +2,9 @@ import { StyleSheet } from 'react-native'
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: '#4169E1',
-    height: '25%',
-    marginTop: 200,
+    height: '5%',
+    marginTop: 100,
     width: '100%',
     display: 'flex',
     justifyContent: 'center',
@@ -13,7 +12,7 @@ const styles = StyleSheet.create({
   },
   txt: {
     textAlign: 'center',
-    marginBottom: 15,
+    // marginBottom: 15,
     color: 'white',
     fontSize: 13,
     fontWeight: 'bold',

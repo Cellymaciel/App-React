@@ -6,6 +6,7 @@ const stylesClima = StyleSheet.create({
     backgroundColor: '#F4F4F4',
     borderRadius: 10,
     padding: 20,
+    paddingBottom: 5,
     marginTop: 10,
     gap: 10
   },
@@ -52,17 +53,29 @@ const stylesClima = StyleSheet.create({
     color: '#33415C'
   },
 
+  boxMainInfos: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '50%'
+  },
+
   boxMainDesc: {
     fontSize: 20,
     fontWeight: 400,
-    color: '#33415C'
+    color: '#33415C',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    textAlign: 'center'
   },
 
   // Box Clima Bottom
   boxInsideBottom: {
     display: 'flex',
     flexDirection: 'column',
-    gap: 2
+    gap: 2,
+    marginBottom: 10
   },
 
   boxBottomInfo: {
@@ -91,31 +104,54 @@ const stylesClima = StyleSheet.create({
   // Secondary Climas
   climaBoxSecondary: {
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
+    width: '100%'
   },
 
-  boxesClimaSecondary: {
+  boxeClimaSecondary: {
     display: 'flex',
     flexDirection: 'row',
     width: '100%',
-    padding: 20
+    padding: 20,
+    backgroundColor: '#F4F4F4',
+    borderRadius: 10,
+    marginTop: 15,
+    gap: 10
   },
 
-  boxSecondaryLeft: {
+  boxSecImg: {
     display: 'flex',
-    flexDirection: 'row',
-    width: '50%'
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '25%'
   },
 
-  boxSecondaryRight: {
+  boxSecondaryImage: {
+    width: '90%',
+    height: '100%'
+  },
+
+  boxSecTxt: {
     display: 'flex',
-    flexDirection: 'row',
-    width: '50%'
+    justifyContent: 'center',
+    color: '#33415C',
+    gap: 2
   },
 
-  boxMainImage: {
-    width: 10,
-    height: 10
+  titleBoxSecondary: {
+    fontSize: 15,
+    fontWeight: 700,
+    color: '#0466C8'
+  },
+
+  tempSecTxt: {
+    color: '#33415C',
+    fontWeight: 500
+  },
+
+  descriptionBoxSecondary: {
+    color: '#33415C',
+    fontWeight: 500
   }
 })
 

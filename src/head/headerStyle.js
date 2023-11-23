@@ -15,8 +15,7 @@ const styles = StyleSheet.create({
   logo: {
     height: '100%',
     width: '80%',
-    marginTop: 45,
-  },
- 
+    marginTop: 55
+  }
 })
 export default styles
