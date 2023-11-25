@@ -2,12 +2,46 @@ import { Text, View, TextInput, Image, Pressable, Button } from 'react-native'
 import { FontAwesome } from '@expo/vector-icons'
 import styles from './loginStyle'
 import { useNavigation } from '@react-navigation/native'
+import React, { useState } from 'react'
+import dbUsuarios from '../services/dbUsuarios'
+import dbCidadesFavoritadas from '../services/dbCidadesFavoritadas'
+import { Alert } from 'react-native'
 
 export default function Login(props) {
   const navigation = useNavigation()
 
+  const [email, setEmail] = useState('') // Adicione o estado para o email
+  const [password, setPassword] = useState('') // Adicione o estado para a senha
+
   const handleRegisterClick = () => {
     navigation.navigate('Register')
+  }
+
+  const handleLoginClick = async () => {
+    try {
+      // Realize a autenticação
+      const user = await dbUsuarios.findUserByEmailAndPassword(email, password)
+
+      console.log('User authenticated:', user)
+
+      // Exiba uma mensagem de sucesso
+      Alert.alert('Login bem-sucedido', 'Você está logado com sucesso!', [
+        {
+          text: 'OK',
+          onPress: () => {
+            // Navegue para a tela inicial após o login bem-sucedido
+            navigation.navigate('Home')
+          }
+        }
+      ])
+    } catch (error) {
+      // Exiba uma mensagem de erro
+      Alert.alert(
+        'Erro no login',
+        'Verifique suas credenciais e tente novamente.'
+      )
+      console.error('Error during login:', error)
+    }
   }
 
   return (
@@ -33,7 +67,12 @@ export default function Login(props) {
                 color={'#B1B1B1'}
                 style={styles.iconInput}
               />
-              <TextInput style={styles.input} placeholder="Digite seu email" />
+              <TextInput
+                style={styles.input}
+                placeholder="Digite seu email"
+                value={email}
+                onChangeText={text => setEmail(text)}
+              />
             </View>
             <View class="input-password-box" style={styles.inputBox}>
               <FontAwesome
@@ -42,12 +81,18 @@ export default function Login(props) {
                 color={'#B1B1B1'}
                 style={styles.iconInput}
               />
-              <TextInput style={styles.input} placeholder="Digite sua senha" />
+              <TextInput
+                style={styles.input}
+                placeholder="Digite sua senha"
+                value={password}
+                onChangeText={text => setPassword(text)}
+                secureTextEntry={true}
+              />
             </View>
           </View>
 
           <View class="entrarBtnBox" style={styles.entrarBtnBox}>
-            <Pressable style={styles.button}>
+            <Pressable style={styles.button} onPress={handleLoginClick}>
               <Text style={styles.textBtn}>Entrar</Text>
             </Pressable>
             <View>

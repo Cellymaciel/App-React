@@ -80,14 +80,14 @@ export default function Body() {
       hail: require('../../assets/imagensClima/chuva-granizo.png'),
       clear_night: require('../../assets/imagensClima/noite-limpa.png')
     }
-    console.log(cod)
-    // Retorna o caminho da imagem correspondente ao código ou o caminho padrão
+
     return imageMap[cod] || DefaultImg
   }
 
   //para executar a api de location qnd a
   useEffect(() => {
     getUserLocation()
+    console.log('APP INICIADO')
   }, [])
 
   return (

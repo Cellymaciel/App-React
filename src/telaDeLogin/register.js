@@ -14,8 +14,9 @@ import { FontAwesome, Entypo } from '@expo/vector-icons'
 import styles from './registerStyle'
 import { Ionicons } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
-// import dbUsuarios from '../services/dbUsuarios'
-// import dbCidadesFavoritadas from '../services/dbCidadesFavoritadas'
+import dbUsuarios from '../services/dbUsuarios'
+import dbCidadesFavoritadas from '../services/dbCidadesFavoritadas'
+import { Alert } from 'react-native'
 
 export default function Register() {
   const navigation = useNavigation()
@@ -31,13 +32,24 @@ export default function Register() {
   const handleRegisterClick = async () => {
     try {
       // Crie o usuário
-      const userId = await SQLiteUsuarios.createUser(
-        username,
-        email,
-        password,
-        selectedCity
+      const user = await dbUsuarios.createUser(username, email, password)
+
+      console.log('User created with ID:', user.userId)
+
+      // Exiba uma mensagem de sucesso
+      Alert.alert(
+        'Cadastro bem-sucedido',
+        'Seu cadastro foi realizado com sucesso!',
+        [
+          {
+            text: 'OK',
+            onPress: () => {
+              // Navegue de volta para a tela inicial após o cadastro bem-sucedido
+              navigation.navigate('Home')
+            }
+          }
+        ]
       )
-      console.log('User created with ID:', userId)
     } catch (error) {
       console.error('Error registering user:', error)
     }
@@ -89,11 +101,17 @@ export default function Register() {
                 color={'#B1B1B1'}
                 style={styles.iconInput}
               />
-              <TextInput style={styles.input} placeholder="Digite sua senha" />
+              <TextInput
+                style={styles.input}
+                placeholder="Digite sua senha"
+                value={password}
+                onChangeText={text => setPassword(text)}
+                secureTextEntry={true}
+              />
             </View>
           </View>
           <View class="entrarBtnBox" style={styles.entrarBtnBox}>
-            <Pressable style={styles.button}>
+            <Pressable style={styles.button} onPress={handleRegisterClick}>
               <Text style={styles.textBtn}>Registrar-se</Text>
             </Pressable>
             <View style={styles.linkBox}>
