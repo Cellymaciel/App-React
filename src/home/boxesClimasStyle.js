@@ -9,6 +9,7 @@ const stylesClima = StyleSheet.create({
     paddingBottom: 5,
     marginTop: 10,
     gap: 10
+    // height: '30%'
   },
 
   boxInsideTop: {
@@ -19,14 +20,14 @@ const stylesClima = StyleSheet.create({
   boxTopMessage: {
     fontSize: 13,
     color: '#0466C8',
-    fontWeight: 500,
+    fontWeight: '500',
     paddingLeft: 5
   },
 
   boxTopCityName: {
     fontSize: 28,
     color: '#0466C8',
-    fontWeight: 500,
+    fontWeight: '500',
     display: 'flex',
     alignContent: 'center',
     alignItems: 'center'
@@ -37,19 +38,20 @@ const stylesClima = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     width: '100%',
+    // height: '20%',
     justifyContent: 'center',
     alignItems: 'center',
-    gap: 50
+    gap: 30
   },
 
   boxMainImage: {
-    width: 90,
-    height: 90
+    width: 100,
+    height: 100
   },
 
   boxMainTemp: {
     fontSize: 60,
-    fontWeight: 700,
+    fontWeight: '700',
     color: '#33415C'
   },
 
@@ -62,7 +64,7 @@ const stylesClima = StyleSheet.create({
 
   boxMainDesc: {
     fontSize: 20,
-    fontWeight: 400,
+    fontWeight: '400',
     color: '#33415C',
     display: 'flex',
     alignItems: 'center',
@@ -98,37 +100,40 @@ const stylesClima = StyleSheet.create({
 
   boxSmall: {
     color: '#33415C',
-    fontWeight: 400
+    fontWeight: '400'
   },
 
   // Secondary Climas
   climaBoxSecondary: {
     display: 'flex',
-    flexDirection: 'column',
-    width: '100%'
+    flexDirection: 'column'
+    // width: '100%'
   },
 
   boxeClimaSecondary: {
     display: 'flex',
     flexDirection: 'row',
     width: '100%',
+    height: '15%',
     padding: 20,
+    paddingTop: 5,
+    paddingBottom: 5,
     backgroundColor: '#F4F4F4',
     borderRadius: 10,
     marginTop: 15,
-    gap: 10
+    gap: 20
   },
 
   boxSecImg: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    width: '25%'
+    width: '35%'
   },
 
   boxSecondaryImage: {
-    width: '90%',
-    height: '100%'
+    width: '60%',
+    height: '80%'
   },
 
   boxSecTxt: {
@@ -140,18 +145,18 @@ const stylesClima = StyleSheet.create({
 
   titleBoxSecondary: {
     fontSize: 15,
-    fontWeight: 700,
+    fontWeight: '700',
     color: '#0466C8'
   },
 
   tempSecTxt: {
     color: '#33415C',
-    fontWeight: 500
+    fontWeight: '500'
   },
 
   descriptionBoxSecondary: {
     color: '#33415C',
-    fontWeight: 500
+    fontWeight: '500'
   }
 })
 

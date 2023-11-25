@@ -8,16 +8,39 @@ import {
   Pressable,
   TouchableOpacity
 } from 'react-native'
+
+import React, { useState } from 'react'
 import { FontAwesome, Entypo } from '@expo/vector-icons'
 import styles from './registerStyle'
 import { Ionicons } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
+// import dbUsuarios from '../services/dbUsuarios'
+// import dbCidadesFavoritadas from '../services/dbCidadesFavoritadas'
 
 export default function Register() {
   const navigation = useNavigation()
 
+  const [username, setUsername] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+
   const handleLoginClick = () => {
     navigation.navigate('Login')
+  }
+
+  const handleRegisterClick = async () => {
+    try {
+      // Crie o usuário
+      const userId = await SQLiteUsuarios.createUser(
+        username,
+        email,
+        password,
+        selectedCity
+      )
+      console.log('User created with ID:', userId)
+    } catch (error) {
+      console.error('Error registering user:', error)
+    }
   }
 
   return (
@@ -38,7 +61,12 @@ export default function Register() {
           <View class="input-form" style={styles.inputsBox}>
             <View class="input-name-box" style={styles.inputBox}>
               <Ionicons name="person" size={20} color="#B1B1B1" />
-              <TextInput style={styles.input} placeholder="Digite seu nome" />
+              <TextInput
+                style={styles.input}
+                placeholder="Digite seu nome"
+                value={username}
+                onChangeText={text => setUsername(text)}
+              />
             </View>
             <View class="input-email-box" style={styles.inputBox}>
               <FontAwesome
@@ -47,7 +75,12 @@ export default function Register() {
                 color={'#B1B1B1'}
                 style={styles.iconInput}
               />
-              <TextInput style={styles.input} placeholder="Digite seu email" />
+              <TextInput
+                style={styles.input}
+                placeholder="Digite seu email"
+                value={email}
+                onChangeText={text => setEmail(text)}
+              />
             </View>
             <View class="input-password-box" style={styles.inputBox}>
               <FontAwesome

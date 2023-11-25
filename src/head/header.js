@@ -1,5 +1,11 @@
 import * as React from 'react'
-import {View, Image, SafeAreaView,  TouchableOpacity,   Button } from 'react-native'
+import {
+  View,
+  Image,
+  SafeAreaView,
+  TouchableOpacity,
+  Button
+} from 'react-native'
 import { FontAwesome } from '@expo/vector-icons'
 
 import styles from './headerStyle'

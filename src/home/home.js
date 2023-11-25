@@ -5,25 +5,20 @@ import {
   TextInput,
   TouchableOpacity,
   Image,
-  ActivityIndicator
+  ActivityIndicator,
+  ScrollView
 } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import { FontAwesome, Entypo } from '@expo/vector-icons'
 import styles from './homeStyle'
 import stylesClima from './boxesClimasStyle'
+import { SvgUri, LocalSvg } from 'react-native-svg'
 
 import Head from '../head/header'
 import Footer from '../footer/footer'
 import { Touchable } from 'react-native'
 
-import ChuvaLeveImg from '../../assets/images/chuva-leve.svg'
-import TempestadeImg from '../../assets/images/tempestade.svg'
-import TempoLimpoImg from '../../assets/images/ensolarado.svg'
-import NubladoImg from '../../assets/images/nublado.svg'
-import NeveImg from '../../assets/images/neve.svg'
-import GranizoImg from '../../assets/images/chuva-granizo.svg'
-import NoiteLimpaImg from '../../assets/images/noite-limpa.svg'
-import DefaultImg from '../../assets/images/ensolarado-nuvens.svg'
+import { func } from 'prop-types'
 
 export default function Body() {
   const apiUrl =
@@ -52,7 +47,8 @@ export default function Body() {
         setWeatherData(results)
         setNextDaysWeather(nextDaysResults)
         setLoading(false)
-        console.log(JSON.stringify(results, null, 2))
+        // console.log('Weather Data:', weatherData)
+        // console.log('Next Days Weather:', nextDaysWeather)
       })
       .catch(error => console.error(error))
   }
@@ -64,6 +60,7 @@ export default function Body() {
         .json()
         .then(data => {
           const cityInitial = data.results.city
+          console.log('LOALIZAÇÃO:', cityInitial)
           getTodayInfos(cityInitial)
         })
         .catch(error => console.error(error))
@@ -71,20 +68,20 @@ export default function Body() {
   }
 
   function getUrlSecondaryImg(cod) {
-    // Mapeia os códigos meteorológicos para as imagens correspondentes
+    // Mapeia os códigos meteorológicos para os caminhos das imagens correspondentes
     const imageMap = {
-      rain: ChuvaLeveImg,
-      storm: TempestadeImg,
-      clear_day: TempoLimpoImg,
-      cloud: NubladoImg,
-      cloudly_night: NubladoImg,
-      cloudly_day: NubladoImg,
-      swno: NeveImg,
-      hail: GranizoImg,
-      clear_night: NoiteLimpaImg
+      rain: require('../../assets/imagensClima/chuva-leve.png'),
+      storm: require('../../assets/imagensClima/tempestade.png'),
+      clear_day: require('../../assets/imagensClima/ensolarado.png'),
+      cloud: require('../../assets/imagensClima/parcialmente-nublado.png'),
+      cloudly_night: require('../../assets/imagensClima/nublado.png'),
+      cloudly_day: require('../../assets/imagensClima/nublado.png'),
+      snow: require('../../assets/imagensClima/neve.png'),
+      hail: require('../../assets/imagensClima/chuva-granizo.png'),
+      clear_night: require('../../assets/imagensClima/noite-limpa.png')
     }
-
-    // Retorna a imagem correspondente ao código ou a imagem padrão
+    console.log(cod)
+    // Retorna o caminho da imagem correspondente ao código ou o caminho padrão
     return imageMap[cod] || DefaultImg
   }
 
@@ -93,53 +90,35 @@ export default function Body() {
     getUserLocation()
   }, [])
 
-  let imgClimaPrincipal = getUrlSecondaryImg(
-    weatherData ? weatherData.condition_slug : null
-  )
-  let imgClimaDay2 = getUrlSecondaryImg(
-    nextDaysWeather ? nextDaysWeather[1].condition : null
-  )
-  let imgClimaDay3 = getUrlSecondaryImg(
-    nextDaysWeather ? nextDaysWeather[2].condition : null
-  )
-  let imgClimaDay4 = getUrlSecondaryImg(
-    nextDaysWeather ? nextDaysWeather[3].condition : null
-  )
-  let imgClimaDay5 = getUrlSecondaryImg(
-    nextDaysWeather ? nextDaysWeather[4].condition : null
-  )
-
-  console.log(imgClimaDay5)
-
   return (
-    <SafeAreaView style={styles.container}>
-      {loading && (
-        <View style={styles.loadingArea}>
-          <ActivityIndicator size="large" color="white" />
-          <Text style={styles.loadingText}>Carregando...</Text>
-        </View>
-      )}
-      {!loading && (
-        <SafeAreaView style={styles.containerMain}>
-          <Head></Head>
-          <View style={styles.searchBox}>
-            <Text style={styles.txt}> Cidade :</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Digite o nome da cidade"
-              value={city}
-              onChangeText={text => setCity(text)}
-            />
-            <TouchableOpacity style={styles.btn} onPress={handleSearchClick}>
-              <FontAwesome name="search" size={20} color={'white'} />
-            </TouchableOpacity>
+    <ScrollView>
+      <SafeAreaView style={styles.container}>
+        {loading && (
+          <View style={styles.loadingArea}>
+            <ActivityIndicator size="large" color="white" />
+            <Text style={styles.loadingText}>Carregando...</Text>
           </View>
+        )}
+        {!loading && (
+          <SafeAreaView style={styles.containerMain}>
+            <Head></Head>
+            <View style={styles.searchBox}>
+              <Text style={styles.txt}> Cidade :</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="Digite o nome da cidade"
+                value={city}
+                onChangeText={text => setCity(text)}
+              />
+              <TouchableOpacity style={styles.btn} onPress={handleSearchClick}>
+                <FontAwesome name="search" size={20} color={'white'} />
+              </TouchableOpacity>
+            </View>
 
-          <SafeAreaView style={styles.climaBoxMain}>
-            <View style={styles.boxClimaMain}>
-              {weatherData && (
-                <>
-                  <TouchableOpacity>
+            <SafeAreaView style={styles.climaBoxMain}>
+              <View style={styles.boxClimaMain}>
+                {weatherData && (
+                  <>
                     <View style={stylesClima.boxClimaPrincipal}>
                       <View style={stylesClima.boxInsideTop}>
                         <Text style={stylesClima.boxTopMessage}>
@@ -159,8 +138,11 @@ export default function Body() {
                       <View style={stylesClima.boxInsideMain}>
                         <Image
                           style={stylesClima.boxMainImage}
-                          source={{ uri: imgClimaPrincipal }}
+                          source={getUrlSecondaryImg(
+                            weatherData ? weatherData.condition_slug : 'cloud'
+                          )}
                         />
+
                         <View style={stylesClima.boxMainInfos}>
                           <Text style={stylesClima.boxMainTemp}>
                             {weatherData.temp}º
@@ -205,20 +187,23 @@ export default function Body() {
                         </View>
                       </View>
                     </View>
-                  </TouchableOpacity>
-                </>
-              )}
+                  </>
+                )}
 
-              {nextDaysWeather && (
-                <>
-                  <SafeAreaView style={stylesClima.climaBoxSecondary}>
-                    {/* SEGUNDO DIA */}
-                    <TouchableOpacity>
+                {nextDaysWeather && (
+                  <>
+                    <SafeAreaView style={stylesClima.climaBoxSecondary}>
+                      {/* SEGUNDO DIA */}
+
                       <View style={stylesClima.boxeClimaSecondary}>
                         <View style={stylesClima.boxSecImg}>
                           <Image
                             style={stylesClima.boxSecondaryImage}
-                            source={{ uri: imgClimaDay2 }}
+                            source={getUrlSecondaryImg(
+                              nextDaysWeather
+                                ? nextDaysWeather[1].condition
+                                : 'cloud'
+                            )}
                           />
                         </View>
                         <View style={stylesClima.boxSecTxt}>
@@ -234,15 +219,18 @@ export default function Body() {
                           </Text>
                         </View>
                       </View>
-                    </TouchableOpacity>
 
-                    {/* TERCEIRO DIA */}
-                    <TouchableOpacity>
+                      {/* TERCEIRO DIA */}
+
                       <View style={stylesClima.boxeClimaSecondary}>
                         <View style={stylesClima.boxSecImg}>
                           <Image
                             style={stylesClima.boxSecondaryImage}
-                            source={{ uri: imgClimaDay3 }}
+                            source={getUrlSecondaryImg(
+                              nextDaysWeather
+                                ? nextDaysWeather[2].condition
+                                : 'cloud'
+                            )}
                           />
                         </View>
                         <View style={stylesClima.boxSecTxt}>
@@ -259,15 +247,18 @@ export default function Body() {
                           </Text>
                         </View>
                       </View>
-                    </TouchableOpacity>
 
-                    {/* QUARTO DIA */}
-                    <TouchableOpacity>
+                      {/* QUARTO DIA */}
+
                       <View style={stylesClima.boxeClimaSecondary}>
                         <View style={stylesClima.boxSecImg}>
                           <Image
                             style={stylesClima.boxSecondaryImage}
-                            source={{ uri: imgClimaDay4 }}
+                            source={getUrlSecondaryImg(
+                              nextDaysWeather
+                                ? nextDaysWeather[3].condition
+                                : 'cloud'
+                            )}
                           />
                         </View>
                         <View style={stylesClima.boxSecTxt}>
@@ -284,15 +275,18 @@ export default function Body() {
                           </Text>
                         </View>
                       </View>
-                    </TouchableOpacity>
 
-                    {/* QUINTO DIA */}
-                    <TouchableOpacity>
+                      {/* QUINTO DIA */}
+
                       <View style={stylesClima.boxeClimaSecondary}>
                         <View style={stylesClima.boxSecImg}>
                           <Image
                             style={stylesClima.boxSecondaryImage}
-                            source={{ uri: imgClimaDay5 }}
+                            source={getUrlSecondaryImg(
+                              nextDaysWeather
+                                ? nextDaysWeather[4].condition
+                                : 'cloud'
+                            )}
                           />
                         </View>
                         <View style={stylesClima.boxSecTxt}>
@@ -309,16 +303,15 @@ export default function Body() {
                           </Text>
                         </View>
                       </View>
-                    </TouchableOpacity>
-                  </SafeAreaView>
-                </>
-              )}
-            </View>
+                    </SafeAreaView>
+                  </>
+                )}
+              </View>
+            </SafeAreaView>
           </SafeAreaView>
-        </SafeAreaView>
-      )}
-
-      <Footer></Footer>
-    </SafeAreaView>
+        )}
+        <Footer></Footer>
+      </SafeAreaView>
+    </ScrollView>
   )
 }

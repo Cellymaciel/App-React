@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
 
   welcomeMessage: {
     fontSize: 25,
-    fontWeight: 700,
+    fontWeight: '700',
     color: '#ffff'
   },
 
@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
   textBtn: {
     color: '#ffff',
     fontSize: 18,
-    fontWeight: 700
+    fontWeight: '700'
   },
 
   registerMessage: {
