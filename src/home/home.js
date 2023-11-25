@@ -12,7 +12,7 @@ import React, { useState, useEffect } from 'react'
 import { FontAwesome, Entypo } from '@expo/vector-icons'
 import styles from './homeStyle'
 import stylesClima from './boxesClimasStyle'
-import { SvgUri, LocalSvg } from 'react-native-svg'
+import { AntDesign } from '@expo/vector-icons'
 
 import Head from '../head/header'
 import Footer from '../footer/footer'
@@ -34,6 +34,9 @@ export default function Body() {
   const [loading, setLoading] = useState(false)
 
   const handleSearchClick = () => {
+    getTodayInfos(city)
+  }
+  const handleFavoriteClick = () => {
     getTodayInfos(city)
   }
 
@@ -60,7 +63,7 @@ export default function Body() {
         .json()
         .then(data => {
           const cityInitial = data.results.city
-          console.log('LOALIZAÇÃO:', cityInitial)
+          console.log('LOCALIZAÇÃO:', cityInitial)
           getTodayInfos(cityInitial)
         })
         .catch(error => console.error(error))
@@ -100,6 +103,7 @@ export default function Body() {
           </View>
         )}
         {!loading && (
+          // BARRA DE PESQUISA
           <SafeAreaView style={styles.containerMain}>
             <Head></Head>
             <View style={styles.searchBox}>
@@ -115,24 +119,32 @@ export default function Body() {
               </TouchableOpacity>
             </View>
 
+            {/* CLIMA PRINCIPAL */}
             <SafeAreaView style={styles.climaBoxMain}>
               <View style={styles.boxClimaMain}>
                 {weatherData && (
                   <>
                     <View style={stylesClima.boxClimaPrincipal}>
                       <View style={stylesClima.boxInsideTop}>
-                        <Text style={stylesClima.boxTopMessage}>
-                          TEMPO AGORA EM
-                        </Text>
-                        <Text style={stylesClima.boxTopCityName}>
-                          {' '}
-                          <Entypo
-                            name="location-pin"
-                            size={28}
-                            color="#0466C8"
-                          />
-                          {weatherData.city}
-                        </Text>
+                        <View style={stylesClima.boxInfosText}>
+                          <Text style={stylesClima.boxTopMessage}>
+                            TEMPO AGORA EM
+                          </Text>
+                          <Text style={stylesClima.boxTopCityName}>
+                            {' '}
+                            <Entypo
+                              name="location-pin"
+                              size={28}
+                              color="#0466C8"
+                            />
+                            {weatherData.city}
+                          </Text>
+                        </View>
+                        <View style={stylesClima.boxStar}>
+                          <TouchableOpacity onPress={handleFavoriteClick}>
+                            <AntDesign name="staro" size={35} color="#EAD02D" />
+                          </TouchableOpacity>
+                        </View>
                       </View>
 
                       <View style={stylesClima.boxInsideMain}>

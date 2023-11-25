@@ -14,6 +14,7 @@ const stylesClima = StyleSheet.create({
 
   boxInsideTop: {
     display: 'flex',
+    flexDirection: 'row',
     gap: 5
   },
 
@@ -31,6 +32,18 @@ const stylesClima = StyleSheet.create({
     display: 'flex',
     alignContent: 'center',
     alignItems: 'center'
+  },
+
+  boxInfosText: {
+    display: 'flex',
+    width: '85%'
+  },
+
+  boxStar: {
+    display: 'flex',
+    alignItems: 'flex-end',
+    justifyContent: 'flex-start',
+    width: '15%'
   },
 
   // Box clima main
