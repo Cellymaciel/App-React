@@ -16,6 +16,15 @@ import Head from '../head/header'
 import Footer from '../footer/footer'
 import { Touchable } from 'react-native'
 
+import ChuvaLeveImg from '../../assets/images/chuva-leve.svg'
+import TempestadeImg from '../../assets/images/tempestade.svg'
+import TempoLimpoImg from '../../assets/images/ensolarado.svg'
+import NubladoImg from '../../assets/images/nublado.svg'
+import NeveImg from '../../assets/images/neve.svg'
+import GranizoImg from '../../assets/images/chuva-granizo.svg'
+import NoiteLimpaImg from '../../assets/images/noite-limpa.svg'
+import DefaultImg from '../../assets/images/ensolarado-nuvens.svg'
+
 export default function Body() {
   const apiUrl =
     'https://api.hgbrasil.com/weather?format=json-cors&key=af2a2efb&city_name='
@@ -32,6 +41,7 @@ export default function Body() {
   const handleSearchClick = () => {
     getTodayInfos(city)
   }
+
   const getTodayInfos = cityName => {
     setLoading(true)
     fetch(apiUrl + cityName)
@@ -42,13 +52,12 @@ export default function Body() {
         setWeatherData(results)
         setNextDaysWeather(nextDaysResults)
         setLoading(false)
-        // changePrincipalInfos(results)
-        // changeImg(Number(results.condition_code))
         console.log(JSON.stringify(results, null, 2))
       })
       .catch(error => console.error(error))
   }
 
+  // pegar a localizacao do usuario
   function getUserLocation() {
     fetch(locationApiUrl).then(response =>
       response
@@ -61,16 +70,52 @@ export default function Body() {
     )
   }
 
+  function getUrlSecondaryImg(cod) {
+    // Mapeia os códigos meteorológicos para as imagens correspondentes
+    const imageMap = {
+      rain: ChuvaLeveImg,
+      storm: TempestadeImg,
+      clear_day: TempoLimpoImg,
+      cloud: NubladoImg,
+      cloudly_night: NubladoImg,
+      cloudly_day: NubladoImg,
+      swno: NeveImg,
+      hail: GranizoImg,
+      clear_night: NoiteLimpaImg
+    }
+
+    // Retorna a imagem correspondente ao código ou a imagem padrão
+    return imageMap[cod] || DefaultImg
+  }
+
   //para executar a api de location qnd a
   useEffect(() => {
     getUserLocation()
   }, [])
 
+  let imgClimaPrincipal = getUrlSecondaryImg(
+    weatherData ? weatherData.condition_slug : null
+  )
+  let imgClimaDay2 = getUrlSecondaryImg(
+    nextDaysWeather ? nextDaysWeather[1].condition : null
+  )
+  let imgClimaDay3 = getUrlSecondaryImg(
+    nextDaysWeather ? nextDaysWeather[2].condition : null
+  )
+  let imgClimaDay4 = getUrlSecondaryImg(
+    nextDaysWeather ? nextDaysWeather[3].condition : null
+  )
+  let imgClimaDay5 = getUrlSecondaryImg(
+    nextDaysWeather ? nextDaysWeather[4].condition : null
+  )
+
+  console.log(imgClimaDay5)
+
   return (
     <SafeAreaView style={styles.container}>
       {loading && (
         <View style={styles.loadingArea}>
-          <ActivityIndicator size="large" color="#230C76" />
+          <ActivityIndicator size="large" color="white" />
           <Text style={styles.loadingText}>Carregando...</Text>
         </View>
       )}
@@ -114,7 +159,7 @@ export default function Body() {
                       <View style={stylesClima.boxInsideMain}>
                         <Image
                           style={stylesClima.boxMainImage}
-                          source={require('../../assets/images/ar-quente.svg')}
+                          source={{ uri: imgClimaPrincipal }}
                         />
                         <View style={stylesClima.boxMainInfos}>
                           <Text style={stylesClima.boxMainTemp}>
@@ -173,7 +218,7 @@ export default function Body() {
                         <View style={stylesClima.boxSecImg}>
                           <Image
                             style={stylesClima.boxSecondaryImage}
-                            source={require('../../assets/images/ar-quente.svg')}
+                            source={{ uri: imgClimaDay2 }}
                           />
                         </View>
                         <View style={stylesClima.boxSecTxt}>
@@ -197,7 +242,7 @@ export default function Body() {
                         <View style={stylesClima.boxSecImg}>
                           <Image
                             style={stylesClima.boxSecondaryImage}
-                            source={require('../../assets/images/ar-quente.svg')}
+                            source={{ uri: imgClimaDay3 }}
                           />
                         </View>
                         <View style={stylesClima.boxSecTxt}>
@@ -222,7 +267,7 @@ export default function Body() {
                         <View style={stylesClima.boxSecImg}>
                           <Image
                             style={stylesClima.boxSecondaryImage}
-                            source={require('../../assets/images/ar-quente.svg')}
+                            source={{ uri: imgClimaDay4 }}
                           />
                         </View>
                         <View style={stylesClima.boxSecTxt}>
@@ -247,7 +292,7 @@ export default function Body() {
                         <View style={stylesClima.boxSecImg}>
                           <Image
                             style={stylesClima.boxSecondaryImage}
-                            source={require('../../assets/images/ar-quente.svg')}
+                            source={{ uri: imgClimaDay5 }}
                           />
                         </View>
                         <View style={stylesClima.boxSecTxt}>
