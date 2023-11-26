@@ -16,42 +16,40 @@ import { initDB } from './src/services/SQLiteDataBase';
 initDB();
 const Drawer = createDrawerNavigator();
 
-const CustomDrawerContent = ({  ...props }) => {
+const CustomDrawerContent = ({favoritedCity, selectedCity, ...props }) => {
   return (
     <DrawerContentScrollView {...props} style={styles.estilos}>
       <View style={styles.drawerHeader}>
         <Text style={styles.txt}>Previsão Tempo.com</Text>
       </View>
       <DrawerItemList {...props} />
+
+   
     </DrawerContentScrollView>
   );
 };
-
- 
-
 export default function App() {
-  const [favoritedCity, setFavoritedCity] = useState([]);
+  const [selectedCity, setSelectedCity] = useState('');
+  const [favoritedCity, setFavoritedCity] = useState('');
 
+  // Aqui você pode carregar a cidade favoritada do AsyncStorage ou de onde quer que seja
   useEffect(() => {
-    const fetchFavoritedCity = async () => {
-      try {
-        const cities = await AsyncStorage.getItem('favoritedCity');
-        if (cities) {
-          setFavoritedCity(JSON.parse(cities));
+    // Exemplo: carregar a cidade favoritada do AsyncStorage
+    AsyncStorage.getItem('favoritedCity')
+      .then(city => {
+        if (city) {
+          setFavoritedCity(city);
         }
-      } catch (error) {
-        console.error('Error fetching favorited cities:', error);
-      }
-    };
-
-    fetchFavoritedCity();
+      })
+      .catch(error => console.error('Erro ao obter a cidade favoritada:', error));
   }, []);
+
 
   return (
     <NavigationContainer styles={styles.drw}>
        <Drawer.Navigator
         initialRouteName="Home"
-        drawerContent={(props) => <CustomDrawerContent {...props} favoritedCity={favoritedCity} />}
+        drawerContent={(props) =>    <CustomDrawerContent {...props} favoritedCity={favoritedCity} selectedCity={selectedCity} />}
       >
         <Drawer.Screen
           name="Home"
@@ -86,9 +84,19 @@ export default function App() {
         />
              
 
-
-
-
+             <Drawer.Screen
+          name={favoritedCity || "BodyScreen"}
+          component={() => <Body setSelectedCity={setSelectedCity} />} 
+          options={{
+            drawerIcon: ({ color, size }) => (
+              <FontAwesome name="star" color={'#4682B4'} size={25} />
+            ),
+            drawerItemStyle: { marginTop: 15, backgroundColor: '#f4f4f4' },
+            drawerLabelStyle: { color: '#4682B4', fontSize: 15, fontWeight: 'bold' },
+            headerTitle: '',
+            headerTintColor: 'white',
+          }}
+        />
 
         <Drawer.Screen
           name="Login"

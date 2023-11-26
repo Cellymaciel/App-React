@@ -22,31 +22,7 @@ initDB();
 import{addFavoritedCity} from '../services/dbCidadesFavoritadas';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const handleFavoriteClick = () => {
-  if (weatherData) {
-    const { city } = weatherData;
-    const usuario_id = 1;
-
-    addFavoritedCity(usuario_id, city)
-      .then(insertId => {
-        console.log(`Cidade favoritada! ID: ${city}`);
-        setFavoritedCity(city);
-        // Armazenando a cidade favorita no AsyncStorage
-        AsyncStorage.setItem('favoritedCity', city)
-          .then(() => console.log('Cidade favorita armazenada no AsyncStorage'))
-          .catch(error => console.error('Erro ao armazenar cidade favorita:', error));
-      })
-      .catch(error => {
-        console.error('Erro ao favoritar cidade:', error);
-      });
-  }
-};
-
-
-
-
-
-export default function Body() {
+export default function Body({setSelectedCity}) {
   const apiUrl =
     'https://api.hgbrasil.com/weather?format=json-cors&key=af2a2efb&city_name='
   const locationApiUrl =
@@ -115,6 +91,8 @@ export default function Body() {
   
 
   const handleFavoriteClick = () => {
+
+    
     if (weatherData) {
       const { city } = weatherData;
       const usuario_id = 1;
@@ -122,7 +100,8 @@ export default function Body() {
       addFavoritedCity(usuario_id, city)
         .then(insertId => {
           console.log(`Cidade favoritada! ID: ${city}`);
-          setFavoritedCity(city);
+        
+        setSelectedCity(city);;
           // Armazenando a cidade favorita no AsyncStorage
           AsyncStorage.setItem('favoritedCity', city)
             .then(() => {
@@ -141,7 +120,7 @@ export default function Body() {
         });
     }
   };
-  //para executar a api de location qnd a
+
   useEffect(() => {
     getUserLocation()
     console.log('APP INICIADO')
