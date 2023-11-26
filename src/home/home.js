@@ -14,11 +14,37 @@ import styles from './homeStyle'
 import stylesClima from './boxesClimasStyle'
 import { AntDesign } from '@expo/vector-icons'
 
+
 import Head from '../head/header'
 import Footer from '../footer/footer'
-import { Touchable } from 'react-native'
+import { initDB } from '../services/SQLiteDataBase'
+initDB();
+import{addFavoritedCity} from '../services/dbCidadesFavoritadas';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { func } from 'prop-types'
+const handleFavoriteClick = () => {
+  if (weatherData) {
+    const { city } = weatherData;
+    const usuario_id = 1;
+
+    addFavoritedCity(usuario_id, city)
+      .then(insertId => {
+        console.log(`Cidade favoritada! ID: ${city}`);
+        setFavoritedCity(city);
+        // Armazenando a cidade favorita no AsyncStorage
+        AsyncStorage.setItem('favoritedCity', city)
+          .then(() => console.log('Cidade favorita armazenada no AsyncStorage'))
+          .catch(error => console.error('Erro ao armazenar cidade favorita:', error));
+      })
+      .catch(error => {
+        console.error('Erro ao favoritar cidade:', error);
+      });
+  }
+};
+
+
+
+
 
 export default function Body() {
   const apiUrl =
@@ -32,13 +58,12 @@ export default function Body() {
   const [weatherData, setWeatherData] = useState(null)
   const [nextDaysWeather, setNextDaysWeather] = useState(null)
   const [loading, setLoading] = useState(false)
+  const [favoritedCity, setFavoritedCity] = useState('');
 
   const handleSearchClick = () => {
     getTodayInfos(city)
   }
-  const handleFavoriteClick = () => {
-    getTodayInfos(city)
-  }
+ 
 
   const getTodayInfos = cityName => {
     setLoading(true)
@@ -50,8 +75,7 @@ export default function Body() {
         setWeatherData(results)
         setNextDaysWeather(nextDaysResults)
         setLoading(false)
-        // console.log('Weather Data:', weatherData)
-        // console.log('Next Days Weather:', nextDaysWeather)
+     
       })
       .catch(error => console.error(error))
   }
@@ -87,6 +111,36 @@ export default function Body() {
     return imageMap[cod] || DefaultImg
   }
 
+
+  
+
+  const handleFavoriteClick = () => {
+    if (weatherData) {
+      const { city } = weatherData;
+      const usuario_id = 1;
+  
+      addFavoritedCity(usuario_id, city)
+        .then(insertId => {
+          console.log(`Cidade favoritada! ID: ${city}`);
+          setFavoritedCity(city);
+          // Armazenando a cidade favorita no AsyncStorage
+          AsyncStorage.setItem('favoritedCity', city)
+            .then(() => {
+              console.log('Cidade favorita armazenada no AsyncStorage');
+              setFavoritedCity(prevCity => [...prevCity,city])
+              // Adicionando a cidade favoritada à lista de favoritos
+              const updatedFavoritedCities = [...favoritedCity, city];
+              setFavoritedCity(updatedFavoritedCities);
+            })
+            .catch(error =>
+              console.error('Erro ao armazenar cidade favorita:', error)
+            );
+        })
+        .catch(error => {
+          console.error('Erro ao favoritar cidade:', error);
+        });
+    }
+  };
   //para executar a api de location qnd a
   useEffect(() => {
     getUserLocation()
@@ -141,7 +195,7 @@ export default function Body() {
                           </Text>
                         </View>
                         <View style={stylesClima.boxStar}>
-                          <TouchableOpacity onPress={handleFavoriteClick}>
+                          <TouchableOpacity onPress={ () => handleFavoriteClick (weatherData.city)}>
                             <AntDesign name="staro" size={35} color="#EAD02D" />
                           </TouchableOpacity>
                         </View>

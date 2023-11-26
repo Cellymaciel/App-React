@@ -1,6 +1,4 @@
-import db from './SQLiteDataBase'
-
-// Criação da tabela de cidades favoritadas
+import db from "./SQLiteDataBase"
 db.transaction(tx => {
   tx.executeSql(
     'CREATE TABLE IF NOT EXISTS cidadesFavoritadas (id INTEGER PRIMARY KEY AUTOINCREMENT, usuario_id INTEGER, nome_cidade TEXT);'
@@ -20,7 +18,7 @@ const addFavoritedCity = (usuario_id, nome_cidade) => {
   })
 }
 
-export default {
+export {
   addFavoritedCity
   // ... (outras funções conforme necessário)
 }
