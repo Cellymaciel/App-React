@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
 
   inputsContainer: {
     backgroundColor: '#ffff',
-    height: '45%',
+    // height: '45%',
     width: '80%',
     display: 'flex',
     alignItems: 'center',
@@ -112,7 +112,8 @@ const styles = StyleSheet.create({
   entrarBtnBox: {
     display: 'flex',
     width: '80%',
-    gap: 10
+    gap: 10,
+    paddingBottom: 20
   },
 
   button: {
@@ -134,6 +135,17 @@ const styles = StyleSheet.create({
 
   registerMessage: {
     fontSize: 15
+  },
+
+  boxLoginQuestion: {
+    display: 'flex',
+    flexDirection: 'row',
+    marginBottom: 20
+  },
+
+  registerMsg: {
+    color: '#00B8F9',
+    fontWeight: '700'
   }
 })
 export default styles

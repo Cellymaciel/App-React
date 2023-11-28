@@ -10,8 +10,8 @@ import { Alert } from 'react-native'
 export default function Login(props) {
   const navigation = useNavigation()
 
-  const [email, setEmail] = useState('') // Adicione o estado para o email
-  const [password, setPassword] = useState('') // Adicione o estado para a senha
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
 
   const handleRegisterClick = () => {
     navigation.navigate('Register')
@@ -19,28 +19,24 @@ export default function Login(props) {
 
   const handleLoginClick = async () => {
     try {
-      // Realize a autenticação
       const user = await dbUsuarios.findUserByEmailAndPassword(email, password)
 
-      console.log('User authenticated:', user)
+      console.log('Usuario Autenticado: ', user)
 
-      // Exiba uma mensagem de sucesso
       Alert.alert('Login bem-sucedido', 'Você está logado com sucesso!', [
         {
           text: 'OK',
           onPress: () => {
-            // Navegue para a tela inicial após o login bem-sucedido
             navigation.navigate('Home')
           }
         }
       ])
     } catch (error) {
-      // Exiba uma mensagem de erro
       Alert.alert(
         'Erro no login',
         'Verifique suas credenciais e tente novamente.'
       )
-      console.error('Error during login:', error)
+      console.error('Erro durante o login: ', error)
     }
   }
 
@@ -95,10 +91,10 @@ export default function Login(props) {
             <Pressable style={styles.button} onPress={handleLoginClick}>
               <Text style={styles.textBtn}>Entrar</Text>
             </Pressable>
-            <View>
+            <View style={styles.boxLoginQuestion}>
               <Text style={styles.registerMessage}>Não possui conta? </Text>
               <Pressable onPress={handleRegisterClick}>
-                <Text>Registre-se</Text>
+                <Text style={styles.registerMsg}>Registre-se</Text>
               </Pressable>
             </View>
           </View>

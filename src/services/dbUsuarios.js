@@ -1,4 +1,3 @@
-// Altere de './SQLiteDatabase' para './SQLiteDatabase'
 import db from './SQLiteDataBase'
 
 // Criação da tabela de usuários
@@ -15,7 +14,6 @@ const createUser = (nome, email, password, cidade) => {
         'INSERT INTO usuarios (nome, email, password, cidade) VALUES (?, ?, ?, ?);',
         [nome, email, password, cidade],
         (_, { insertId }) => {
-          // Agora, vamos buscar os dados do usuário recém-criado
           tx.executeSql(
             'SELECT * FROM usuarios WHERE id = ?;',
             [insertId],
@@ -28,7 +26,7 @@ const createUser = (nome, email, password, cidade) => {
                 userEmail: user.email,
                 userPassword: user.password,
                 userCity: user.cidade,
-                message: 'User created successfully'
+                message: 'Usuário Criado com sucesso!'
               })
             },
             (_, error) => reject(error)
@@ -48,7 +46,7 @@ const findUserByEmail = email => {
         [email],
         (_, { rows }) => {
           if (rows.length > 0) resolve(rows.item(0))
-          else reject('User not found for email: ' + email)
+          else reject('Usuario não encontrado pelo email: ' + email)
         },
         (_, error) => reject(error)
       )
@@ -66,11 +64,10 @@ const findUserByEmailAndPassword = (email, password) => {
           if (rows.length > 0) {
             resolve({
               success: true,
-              user: rows.item(0),
-              message: 'Login successful'
+              user: rows.item(0)
             })
           } else {
-            reject('Invalid email or password')
+            reject('Senha ou usuário inválidos')
           }
         },
         (_, error) => reject(error)
@@ -102,5 +99,4 @@ export default {
   findUserByEmail,
   findUserByEmailAndPassword,
   getAllUsers
-  // ... (outras funções conforme necessário)
 }

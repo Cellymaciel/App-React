@@ -119,7 +119,8 @@ const stylesClima = StyleSheet.create({
   // Secondary Climas
   climaBoxSecondary: {
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
+    marginBottom: 30
     // width: '100%'
   },
 

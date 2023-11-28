@@ -14,15 +14,14 @@ import styles from './homeStyle'
 import stylesClima from './boxesClimasStyle'
 import { AntDesign } from '@expo/vector-icons'
 
-
 import Head from '../head/header'
 import Footer from '../footer/footer'
 import { initDB } from '../services/SQLiteDataBase'
-initDB();
-import{addFavoritedCity} from '../services/dbCidadesFavoritadas';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+initDB()
+import { addFavoritedCity } from '../services/dbCidadesFavoritadas'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
-export default function Body({setSelectedCity}) {
+export default function Body({ setSelectedCity }) {
   const apiUrl =
     'https://api.hgbrasil.com/weather?format=json-cors&key=af2a2efb&city_name='
   const locationApiUrl =
@@ -34,13 +33,13 @@ export default function Body({setSelectedCity}) {
   const [weatherData, setWeatherData] = useState(null)
   const [nextDaysWeather, setNextDaysWeather] = useState(null)
   const [loading, setLoading] = useState(false)
-  const [favoritedCity, setFavoritedCity] = useState('');
+  const [favoritedCity, setFavoritedCity] = useState('')
 
   const handleSearchClick = () => {
     getTodayInfos(city)
   }
- 
 
+  // aqui ele pega as informações da api :
   const getTodayInfos = cityName => {
     setLoading(true)
     fetch(apiUrl + cityName)
@@ -51,7 +50,6 @@ export default function Body({setSelectedCity}) {
         setWeatherData(results)
         setNextDaysWeather(nextDaysResults)
         setLoading(false)
-     
       })
       .catch(error => console.error(error))
   }
@@ -71,7 +69,7 @@ export default function Body({setSelectedCity}) {
   }
 
   function getUrlSecondaryImg(cod) {
-    // Mapeia os códigos meteorológicos para os caminhos das imagens correspondentes
+    // mapeia os códigos do tempo para os caminhos das imagens dos cards
     const imageMap = {
       rain: require('../../assets/imagensClima/chuva-leve.png'),
       storm: require('../../assets/imagensClima/tempestade.png'),
@@ -87,39 +85,32 @@ export default function Body({setSelectedCity}) {
     return imageMap[cod] || DefaultImg
   }
 
-
-  
-
   const handleFavoriteClick = () => {
-
-    
     if (weatherData) {
-      const { city } = weatherData;
-      const usuario_id = 1;
-  
+      const { city } = weatherData
+      const usuario_id = 1
+
       addFavoritedCity(usuario_id, city)
         .then(insertId => {
-          console.log(`Cidade favoritada! ID: ${city}`);
-        
-        setSelectedCity(city);;
-          // Armazenando a cidade favorita no AsyncStorage
+          console.log(`Cidade favoritada! ID: ${city}`)
+
+          setSelectedCity(city)
           AsyncStorage.setItem('favoritedCity', city)
             .then(() => {
-              console.log('Cidade favorita armazenada no AsyncStorage');
-              setFavoritedCity(prevCity => [...prevCity,city])
-              // Adicionando a cidade favoritada à lista de favoritos
-              const updatedFavoritedCities = [...favoritedCity, city];
-              setFavoritedCity(updatedFavoritedCities);
+              console.log('Cidade favorita armazenada no AsyncStorage')
+              setFavoritedCity(prevCity => [...prevCity, city])
+              const updatedFavoritedCities = [...favoritedCity, city]
+              setFavoritedCity(updatedFavoritedCities)
             })
             .catch(error =>
               console.error('Erro ao armazenar cidade favorita:', error)
-            );
+            )
         })
         .catch(error => {
-          console.error('Erro ao favoritar cidade:', error);
-        });
+          console.error('Erro ao favoritar cidade:', error)
+        })
     }
-  };
+  }
 
   useEffect(() => {
     getUserLocation()
@@ -174,7 +165,11 @@ export default function Body({setSelectedCity}) {
                           </Text>
                         </View>
                         <View style={stylesClima.boxStar}>
-                          <TouchableOpacity onPress={ () => handleFavoriteClick (weatherData.city)}>
+                          <TouchableOpacity
+                            onPress={() =>
+                              handleFavoriteClick(weatherData.city)
+                            }
+                          >
                             <AntDesign name="staro" size={35} color="#EAD02D" />
                           </TouchableOpacity>
                         </View>
@@ -239,7 +234,6 @@ export default function Body({setSelectedCity}) {
                   <>
                     <SafeAreaView style={stylesClima.climaBoxSecondary}>
                       {/* SEGUNDO DIA */}
-
                       <View style={stylesClima.boxeClimaSecondary}>
                         <View style={stylesClima.boxSecImg}>
                           <Image
@@ -266,7 +260,6 @@ export default function Body({setSelectedCity}) {
                       </View>
 
                       {/* TERCEIRO DIA */}
-
                       <View style={stylesClima.boxeClimaSecondary}>
                         <View style={stylesClima.boxSecImg}>
                           <Image
@@ -294,7 +287,6 @@ export default function Body({setSelectedCity}) {
                       </View>
 
                       {/* QUARTO DIA */}
-
                       <View style={stylesClima.boxeClimaSecondary}>
                         <View style={stylesClima.boxSecImg}>
                           <Image
@@ -322,7 +314,6 @@ export default function Body({setSelectedCity}) {
                       </View>
 
                       {/* QUINTO DIA */}
-
                       <View style={stylesClima.boxeClimaSecondary}>
                         <View style={stylesClima.boxSecImg}>
                           <Image

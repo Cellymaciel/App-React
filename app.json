@@ -1,13 +1,13 @@
 {
   "expo": {
-    "name": "climaTempo",
-    "slug": "climaTempo",
-    "version": "1.0.0",
+    "name": "PrevisãoTempo.com",
+    "slug": "PrevisãoTempo.com",
+    "version": "0.20.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./src/images/previsaoTempoIcone.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./src/images/previsaoTempoIcone.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },

@@ -6,7 +6,7 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   favorits: {
-    backgroundColor: '#0466c8', // Aqui você pode definir a cor de fundo desejada
+    backgroundColor: '#0466c8',
     alignItems: 'center'
   },
   txt: {
@@ -39,11 +39,11 @@ const styles = StyleSheet.create({
     marginTop: 20,
     borderTopWidth: 1,
     borderTopColor: '#ccc',
-    paddingTop: 10,
+    paddingTop: 10
   },
   favoritedCityText: {
-    marginLeft: 10,
-  },
+    marginLeft: 10
+  }
 })
 
 export default styles

@@ -15,7 +15,6 @@ import styles from './registerStyle'
 import { Ionicons } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
 import dbUsuarios from '../services/dbUsuarios'
-import dbCidadesFavoritadas from '../services/dbCidadesFavoritadas'
 import { Alert } from 'react-native'
 
 export default function Register() {
@@ -31,12 +30,10 @@ export default function Register() {
 
   const handleRegisterClick = async () => {
     try {
-      // Crie o usuário
       const user = await dbUsuarios.createUser(username, email, password)
 
       console.log('User created with ID:', user.userId)
 
-      // Exiba uma mensagem de sucesso
       Alert.alert(
         'Cadastro bem-sucedido',
         'Seu cadastro foi realizado com sucesso!',
@@ -44,14 +41,13 @@ export default function Register() {
           {
             text: 'OK',
             onPress: () => {
-              // Navegue de volta para a tela inicial após o cadastro bem-sucedido
-              navigation.navigate('Home')
+              navigation.navigate('Login')
             }
           }
         ]
       )
     } catch (error) {
-      console.error('Error registering user:', error)
+      console.error('Erro ao registrar o usuario:', error)
     }
   }
 
@@ -117,7 +113,7 @@ export default function Register() {
             <View style={styles.linkBox}>
               <Text style={styles.registerMessage}>Já possui conta? </Text>
               <Pressable onPress={handleLoginClick}>
-                <Text>Faça Logint</Text>
+                <Text style={styles.loginMsg}>Faça Login</Text>
               </Pressable>
             </View>
           </View>

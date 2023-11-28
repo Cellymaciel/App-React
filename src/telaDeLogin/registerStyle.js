@@ -146,6 +146,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     gap: 5
+  },
+
+  loginMsg: {
+    fontWeight: '700',
+    color: '#00B8F9'
   }
 })
 export default styles
