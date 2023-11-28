@@ -9,7 +9,7 @@ const stylesClima = StyleSheet.create({
     paddingBottom: 5,
     marginTop: 10,
     gap: 10
-    // height: '30%'
+    
   },
 
   boxInsideTop: {

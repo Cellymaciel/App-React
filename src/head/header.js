@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   Button
 } from 'react-native'
-import { FontAwesome } from '@expo/vector-icons'
 
 import styles from './headerStyle'
 

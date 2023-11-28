@@ -22,6 +22,7 @@ import { addFavoritedCity } from '../services/dbCidadesFavoritadas'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 export default function Body({ setSelectedCity }) {
+  
   const apiUrl =
     'https://api.hgbrasil.com/weather?format=json-cors&key=af2a2efb&city_name='
   const locationApiUrl =
@@ -33,7 +34,7 @@ export default function Body({ setSelectedCity }) {
   const [weatherData, setWeatherData] = useState(null)
   const [nextDaysWeather, setNextDaysWeather] = useState(null)
   const [loading, setLoading] = useState(false)
-  const [favoritedCity, setFavoritedCity] = useState('')
+  const [favoritedCity, setFavoritedCity] = useState('');
 
   const handleSearchClick = () => {
     getTodayInfos(city)
@@ -85,33 +86,27 @@ export default function Body({ setSelectedCity }) {
     return imageMap[cod] || DefaultImg
   }
 
+
   const handleFavoriteClick = () => {
     if (weatherData) {
-      const { city } = weatherData
-      const usuario_id = 1
-
+      const { city } = weatherData;
+      const usuario_id = 1;
+  
       addFavoritedCity(usuario_id, city)
         .then(insertId => {
-          console.log(`Cidade favoritada! ID: ${city}`)
-
-          setSelectedCity(city)
-          AsyncStorage.setItem('favoritedCity', city)
+          console.log(`Cidade favoritada! ID: ${city}`);
+            AsyncStorage.setItem('favoritedCity', city)
             .then(() => {
-              console.log('Cidade favorita armazenada no AsyncStorage')
-              setFavoritedCity(prevCity => [...prevCity, city])
-              const updatedFavoritedCities = [...favoritedCity, city]
-              setFavoritedCity(updatedFavoritedCities)
+              setFavoritedCity(prevCity => [...prevCity, city]);
             })
-            .catch(error =>
-              console.error('Erro ao armazenar cidade favorita:', error)
-            )
+  
+          setSelectedCity(city);
         })
         .catch(error => {
-          console.error('Erro ao favoritar cidade:', error)
-        })
+        });
     }
-  }
-
+  };
+  
   useEffect(() => {
     getUserLocation()
     console.log('APP INICIADO')
@@ -147,8 +142,7 @@ export default function Body({ setSelectedCity }) {
             <SafeAreaView style={styles.climaBoxMain}>
               <View style={styles.boxClimaMain}>
                 {weatherData && (
-                  <>
-                    <View style={stylesClima.boxClimaPrincipal}>
+                  <View style={stylesClima.boxClimaPrincipal}>
                       <View style={stylesClima.boxInsideTop}>
                         <View style={stylesClima.boxInfosText}>
                           <Text style={stylesClima.boxTopMessage}>
@@ -166,9 +160,7 @@ export default function Body({ setSelectedCity }) {
                         </View>
                         <View style={stylesClima.boxStar}>
                           <TouchableOpacity
-                            onPress={() =>
-                              handleFavoriteClick(weatherData.city)
-                            }
+                           onPress={ () => handleFavoriteClick (weatherData.city)}
                           >
                             <AntDesign name="staro" size={35} color="#EAD02D" />
                           </TouchableOpacity>
@@ -227,7 +219,6 @@ export default function Body({ setSelectedCity }) {
                         </View>
                       </View>
                     </View>
-                  </>
                 )}
 
                 {nextDaysWeather && (
