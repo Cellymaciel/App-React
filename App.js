@@ -94,25 +94,6 @@ export default function App() {
         />
 
         <Drawer.Screen
-          name="Curitiba, PR"
-          component={Body}
-          options={{
-            drawerIcon: ({ color, size }) => (
-              <FontAwesome name="star" color={'#4682B4'} size={25} />
-            ),
-            drawerItemStyle: { marginTop: 15, backgroundColor: '#f4f4f4' },
-            drawerLabelStyle: {
-              color: '#4682B4',
-              fontSize: 15,
-              fontWeight: 'bold'
-            },
-            headerTitle: '',
-            headerTintColor: 'white'
-          }}
-        />
-
-        {/* 
-        {/* <Drawer.Screen
           name={favoritedCity || 'BodyScreen'}
           component={() => <Body setSelectedCity={setSelectedCity} />}
           options={{
@@ -128,7 +109,7 @@ export default function App() {
             headerTitle: '',
             headerTintColor: 'white'
           }}
-        /> */}
+        />
 
         <Drawer.Screen
           name="Login"
